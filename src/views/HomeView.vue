@@ -1,9 +1,7 @@
 <script setup>
-import TheWelcome from '../components/TheWelcome.vue'
+import FooTer from '@/components/FooTer.vue'
 </script>
 
 <template>
-  <main>
-    <TheWelcome />
-  </main>
+  <FooTer />
 </template>
