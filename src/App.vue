@@ -1,5 +1,5 @@
 <script setup>
-import Teste from './views/teste.vue'
+import Teste from './views/Teste.vue'
 </script>
 
 <template>
