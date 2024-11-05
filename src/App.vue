@@ -1,10 +1,11 @@
 <script setup>
-import Teste from './views/Teste.vue'
+import { RouterView } from 'vue-router'
+
 </script>
 
 <template>
+  <RouterView />
 
-<Teste />
 </template>
 
 
