@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup>
-import Head from '@/components/header.vue'
+import Head from '@/components/HeadeR.vue'
 </script>
 
 <template>
