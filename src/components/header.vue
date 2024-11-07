@@ -1,6 +1,5 @@
 <!-- eslint-disable vue/multi-word-component-names -->
-<script setup>
-</script>
+<script setup></script>
 
 <template>
   <header class="header">
@@ -23,16 +22,14 @@
 </template>
 
 <style scoped>
-
 .header {
-  background: linear-gradient(145deg, #D5C7A1, #4CAF50); 
-  color: #333; 
+  background: linear-gradient(145deg, #d5c7a1, #4caf50);
+  color: #333;
   padding: 20px 0;
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
 
 .header-container {
   display: flex;
@@ -42,7 +39,6 @@
   margin: 0 auto;
   padding: 0 40px;
 }
-
 
 .logo-section {
   display: flex;
@@ -63,12 +59,11 @@
 .header-logo-text {
   font-size: 24px;
   font-weight: 600;
-  color: #4CAF50;
+  color: #4caf50;
   letter-spacing: 1px;
   text-transform: uppercase;
   transition: color 0.3s ease;
 }
-
 
 .nav-menu {
   display: flex;
@@ -99,13 +94,13 @@
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   transform: scaleX(0);
   transition: transform 0.3s ease;
 }
 
 .nav-link:hover {
-  color: #4CAF50;
+  color: #4caf50;
 }
 
 .nav-link:hover::after {

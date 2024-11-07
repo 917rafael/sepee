@@ -1,5 +1,4 @@
-<script setup>
-</script>
+<script setup></script>
 
 <template>
   <footer class="footer">
@@ -13,8 +12,8 @@
       <div class="footer-section about-section">
         <h4>Sobre Nós</h4>
         <p>
-          Somos uma empresa comprometida com a sustentabilidade, oferecendo soluções
-          inovadoras para o cuidado e manutenção de plantas, promovendo um futuro mais verde.
+          Somos uma empresa comprometida com a sustentabilidade, oferecendo soluções inovadoras para
+          o cuidado e manutenção de plantas, promovendo um futuro mais verde.
         </p>
       </div>
       <!-- Contact Section -->
@@ -25,7 +24,7 @@
         <p><i class="fas fa-envelope"></i> contato@agricolaexemplo.com</p>
       </div>
       <!-- Hours Section -->
-    
+
       <!-- Social Section -->
       <div class="footer-section social-section">
         <h4>Siga-nos</h4>
@@ -46,13 +45,15 @@
 <style scoped>
 /* General Footer Styles */
 .footer {
-  background: linear-gradient(145deg, #D5C7A1, #4CAF50); /* Bege e verde moderno */
+  background: linear-gradient(145deg, #d5c7a1, #4caf50); /* Bege e verde moderno */
   color: #333; /* Cor de texto escura para contraste */
   padding: 80px 0;
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
   line-height: 1.6;
-  transition: background 0.3s ease, padding 0.3s ease;
+  transition:
+    background 0.3s ease,
+    padding 0.3s ease;
 }
 
 /* Container Flex Layout */
@@ -71,7 +72,9 @@
   flex: 1 1 240px;
   min-width: 240px;
   text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
   margin-bottom: 30px;
   position: relative;
   padding: 20px;
@@ -97,7 +100,9 @@
   width: 200px;
   height: auto;
   margin-bottom: 15px;
-  transition: transform 0.4s ease, filter 0.3s ease;
+  transition:
+    transform 0.4s ease,
+    filter 0.3s ease;
 }
 
 .logo-section:hover .footer-logo {
@@ -109,15 +114,17 @@
 .footer-logo-text {
   font-size: 32px;
   font-weight: 600;
-  color: #4CAF50;
+  color: #4caf50;
   margin-top: 10px;
   letter-spacing: 1px;
   text-transform: uppercase;
-  transition: color 0.3s ease, transform 0.3s ease;
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease;
 }
 
 .logo-section:hover .footer-logo-text {
-  color: #D5C7A1;
+  color: #d5c7a1;
   transform: translateY(-5px);
 }
 
@@ -125,7 +132,7 @@
 .footer-section h4 {
   font-size: 26px;
   font-weight: 700;
-  color: #4CAF50;
+  color: #4caf50;
   margin-bottom: 20px;
   position: relative;
   text-transform: uppercase;
@@ -138,7 +145,7 @@
   position: absolute;
   width: 60px;
   height: 3px;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   left: 50%;
   transform: translateX(-50%);
   bottom: -10px;
@@ -163,7 +170,7 @@
 .footer-section p i {
   margin-right: 8px;
   font-size: 20px;
-  color: #4CAF50;
+  color: #4caf50;
 }
 
 /* Social Icons Section */
@@ -175,18 +182,21 @@
 }
 
 .social-icons .social-icon {
-  color: #4CAF50;
+  color: #4caf50;
   font-size: 32px;
-  border: 3px solid #4CAF50;
+  border: 3px solid #4caf50;
   border-radius: 700px;
   padding: 16px;
-  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    transform 0.3s ease;
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
 }
 
 .social-icons .social-icon:hover {
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: #fff;
   transform: scale(1.15);
   animation: bounce 1s ease-in-out;
@@ -195,7 +205,7 @@
 /* Footer Bottom Styling */
 .footer-bottom {
   text-align: center;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   padding: 20px 0;
   font-size: 14px;
   color: #f5f5dc;
@@ -210,7 +220,11 @@
 
 /* Animations */
 @keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
     transform: translateY(0);
   }
   40% {
@@ -300,7 +314,7 @@
 /* Additional Style Refinements */
 .footer {
   box-sizing: border-box;
-  border-top: 5px solid #D5C7A1;
+  border-top: 5px solid #d5c7a1;
 }
 
 .footer-container {
@@ -326,5 +340,4 @@
     font-size: 24px;
   }
 }
-
 </style>
