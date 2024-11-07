@@ -1,124 +1,176 @@
 <!-- eslint-disable vue/multi-word-component-names -->
-
 <script setup>
-import { ref, onMounted } from 'vue';
-import { Line, Bar } from 'vue-chartjs'; // Importando os gráficos Line e Bar do vue-chartjs
-import { Chart as ChartJS, Title, Tooltip, Legend, LineElement, PointElement, BarElement, CategoryScale, LinearScale } from 'chart.js';
+import { ref, onMounted, computed } from 'vue';
+// import { Line } from 'vue-chartjs'; // Importando o gráfico Line do vue-chartjs
+// import { Chart as ChartJS, Title, Tooltip, Legend, LineElement, PointElement, CategoryScale, LinearScale, TimeScale } from 'chart.js'; // Importando as escalas necessárias
+import 'chartjs-adapter-luxon'; // Importando o adaptador luxon
+
 import { supabase } from '../lib/supabaseClient';
-// Registrando os componentes necessários do Chart.js
-ChartJS.register(Title, Tooltip, Legend, LineElement, PointElement, BarElement, CategoryScale, LinearScale);
+
+/*~~~~~~~~~~~~--------------tabelaaaa------------------~~~~~~~~*/
 
 
-// Dados de gráficos
-const timeData = ref({
-  labels: [],
-  datasets: [
-    {
-      label: 'Temperatura (°C)', 
-      data: [], 
-      borderColor: '#42A5F5',
-      fill: false,
-    },
-  ],
-});
-
-const moistureData = ref({
-  labels: [],
-  datasets: [
-    {
-      label: 'Umidade do Solo (%)',
-      data: [],
-      backgroundColor: '#FF5733',
-    },
-  ],
-});
-
-const chartOptions = ref({
-  responsive: true,
-  maintainAspectRatio: false,
-  scales: {
-    x: {
-      title: {
-        display: true,
-        text: 'Hora',
-      },
-    },
-    y: {
-      title: {
-        display: true,
-        text: 'Valor',
-      },
-      min: 0,
-    },
-  },
-});
+// Dados do sensor
+const humidityData = ref([]);
+const sortColumn = ref('time');
+const sortOrder = ref(true); // True para ascendente, false para descendente
 
 // Função para buscar dados do Supabase
-const fetchSensorData = async () => {
-  try {
-    // Buscar os dados da tabela 'sensor_data' no Supabase
-    const { data, error } = await supabase
-      .from('umidade')
-      .select('umidade, created_at')
-      .order('created_at', { ascending: true });
+const fetchHumidityData = async () => {
+  const { data, error } = await supabase
+    .from('umidade')
+    .select('umidade, time, dispositivo, sensor')
+    .order(sortColumn.value, { ascending: sortOrder.value });
 
-    if (error) throw error;
-
-    // Atualizar os dados do gráfico com os dados obtidos do Supabase
-    const labels = data.map(item => new Date(item.created_at).toLocaleTimeString());
-    const moisture = data.map(item => item.umidade);
-
-    moistureData.value.labels = labels;
-    moistureData.value.datasets[0].data = moisture;
-
-    // Para o gráfico de tempo (se desejar adicionar temperatura ou outras métricas)
-    timeData.value.labels = labels; // Pode ser ajustado conforme as necessidades de tempo
-    timeData.value.datasets[0].data = moisture; // Aqui, você pode atualizar com dados de temperatura
-
-  } catch (error) {
-    console.error('Erro ao buscar dados do Supabase:', error);
+  if (error) {
+    console.error('Erro ao buscar dados:', error);
+    return [];
   }
+  humidityData.value = data;
 };
 
-// Buscar dados assim que o componente for montado
-onMounted(() => {
-  fetchSensorData();
+// Função para ordenar os dados
+const sortData = (column) => {
+  if (sortColumn.value === column) {
+    sortOrder.value = !sortOrder.value; // Inverte a ordem
+  } else {
+    sortColumn.value = column; // Muda a coluna
+    sortOrder.value = true; // Reseta a ordem para ascendente
+  }
+  fetchHumidityData(); // Recarrega os dados com a nova ordem
+};
+
+// Computed para ordenar os dados
+const sortedData = computed(() => {
+  return [...humidityData.value].sort((a, b) => {
+    const columnA = a[sortColumn.value];
+    const columnB = b[sortColumn.value];
+    if (columnA < columnB) return sortOrder.value ? -1 : 1;
+    if (columnA > columnB) return sortOrder.value ? 1 : -1;
+    return 0;
+  });
 });
+
+// Carregar dados ao montar o componente
+onMounted(() => {
+  fetchHumidityData();
+});
+
 </script>
 
 <template>
-  <div>
-    <h1>Dashboard de Monitoramento</h1>
-    
-    <!-- Gráfico de Tempo (Temperatura ao Longo do Dia) -->
-    <div class="chart-container">
-      <h2>Gráfico de Tempo (Temperatura ao Longo do Dia)</h2>
-      <Line :data="timeData" :options="chartOptions" />
-    </div>
-    
-    <!-- Gráfico de Umidade do Solo -->
-    <div class="chart-container">
-      <h2>Gráfico de Umidade do Solo</h2>
-      <Bar :data="moistureData" :options="chartOptions" />
-    </div>
+  <div class="table-container">
+    <h1>Dados de Umidade</h1>
+
+    <table>
+      <thead>
+        <tr>
+          <th @click="sortData('umidade')">Umidade</th>
+          <th @click="sortData('time')">Hora</th>
+          <th @click="sortData('dispositivo')">Dispositivo</th>
+          <th @click="sortData('sensor')">Sensor</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(row, index) in sortedData" :key="index">
+          <td>{{ row.umidade }}</td>
+          <td>{{ new Date(row.time).toLocaleString() }}</td>
+          <td>{{ row.dispositivo }}</td>
+          <td>{{ row.sensor }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
+
+  <hr>
+ 
 </template>
 
 <style scoped>
+
+
+/* Cores de fundo e fontes */
+.container {
+  display: grid;
+  justify-content: center;
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5; /* Bege suave */
+  color: #9ecaa5; /* Verde escuro */
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-radius: 8px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo para o título principal */
 h1 {
   text-align: center;
+  color: #c8d7b7; 
+  font-size: 36px;
+  margin-bottom: 20px;
 }
 
+/* Estilo para o gráfico */
 .chart-container {
-  margin: 20px;
-  height: 400px; /* Limita a altura máxima do gráfico */
-  width: 100%; /* Garante que os gráficos ocupem toda a largura disponível */
-  max-width: 800px; /* Limita a largura máxima do gráfico */
-  margin: 0 auto; /* Centraliza os gráficos horizontalmente */
+  margin: 20px auto;
+  text-align: center;
+  max-width: 1000px;
 }
 
+/* Estilo para o título do gráfico */
+.chart-container h2 {
+  font-size: 24px;
+  color: #2e4d33; /* Verde escuro */
+  margin-bottom: 20px;
+}
+
+/* Estilo para a tabela */
+.table-container {
+  margin: 40px auto;
+  text-align: center;
+  max-width: 800px;
+  background-color: #39703c;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.table-container h2 {
+  font-size: 24px;
+  color: #2e9240;
+  margin-bottom: 20px;
+}
+
+/* Estilo para a tabela */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table th,
+table td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+table th {
+  background-color: #6ea777; /* Verde escuro */
+  color: #fff;
+}
+
+table tr:nth-child(even) {
+  background-color: #d5ddbb; /* Linha alternada com fundo bege claro */
+}
+
+table tr:hover {
+  background-color: #4aaa5d; /* Verde claro no hover */
+}
+
+/* Estilo geral para o gráfico e a tabela */
 canvas {
   max-width: 100%;
-  max-height: 100%;
+  height: auto;
 }
 </style>
