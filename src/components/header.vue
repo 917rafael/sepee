@@ -9,14 +9,7 @@
         <div class="header-logo-text">Olhando para o futuro</div>
       </div>
 
-      <nav class="nav-menu">
-        <ul>
-          <li><a href="#" class="nav-link">Home</a></li>
-          <li><a href="#sobre" class="nav-link">Sobre</a></li>
-          <li><a href="#produtos" class="nav-link">Produtos</a></li>
-          <li><a href="#contato" class="nav-link">Contato</a></li>
-        </ul>
-      </nav>
+    
     </div>
   </header>
 </template>
@@ -38,6 +31,7 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 40px;
+  justify-content: center;
 }
 
 .logo-section {
@@ -62,7 +56,8 @@
   color: #4caf50;
   letter-spacing: 1px;
   text-transform: uppercase;
-  transition: color 0.3s ease;
+  transition: color 0.3s ease; 
+  
 }
 
 .nav-menu {
